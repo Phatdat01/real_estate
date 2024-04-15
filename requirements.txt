@@ -1,6 +1,6 @@
 numpy
-matplotlib
-geopandas
 shapely
 opencv-python
+geopandas
 requests
+matplotlib
