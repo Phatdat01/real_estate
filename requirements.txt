@@ -1,0 +1,6 @@
+numpy
+matplotlib
+geopandas
+shapely
+opencv-python
+requests
