@@ -26,8 +26,11 @@ def split_mask(image, mask):
 
 def main():
 	mask = np.load('mask.npy')
+	print(mask)
 	visualize_mask(mask)
-	split_mask(mask)
+	image = plt.imread("./re_training/images/img_1018.png")
+	calculate_area(image, mask)
+	# split_mask(mask)
 
 if __name__ == '__main__':
 	main()

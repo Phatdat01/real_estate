@@ -14,7 +14,7 @@ def download_tile(url, headers, channels):
     return cv2.imdecode(arr, -1)
 
 
-# Mercator projection 
+# Mercator projection
 # https://developers.google.com/maps/documentation/javascript/examples/map-coordinates
 def project_with_scale(lat, lon, scale):
     siny = np.sin(lat * np.pi / 180)
