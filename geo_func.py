@@ -4,6 +4,9 @@ from shapely.ops import split
 from shapely.geometry import MultiPolygon, LineString
 
 def read_geopandas_data():
+    """
+        get data point column,...)
+    """
     file = 'geometry_data/VNM_adm3.shp' # Path to the shapefile
     # Load the JSON data
     data = gpd.read_file(file)
