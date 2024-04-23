@@ -5,7 +5,7 @@ from shapely.geometry import MultiPolygon, LineString
 
 def read_geopandas_data():
     """
-        get data point column,...)
+        get data point columns: ((x1,y1),,...)
     """
     file = 'geometry_data/VNM_adm3.shp' # Path to the shapefile
     # Load the JSON data
@@ -23,6 +23,7 @@ def get_squares_from_rect(RectangularPolygon, side_length=0.0025):
     `side_length` : required side of square
 
     """
+    # RectangularPolygon is geometry
     x1, y1, x2, y2 = RectangularPolygon.bounds
     width = x2 - x1
     height = y2 - y1
@@ -30,6 +31,7 @@ def get_squares_from_rect(RectangularPolygon, side_length=0.0025):
     xcells = int(np.round(width / side_length))
     ycells = int(np.round(height / side_length))
 
+    ### divide to n space
     yindices = np.linspace(y1, y2, ycells + 1)
     xindices = np.linspace(x1, x2, xcells + 1)
     horizontal_splitters = [
