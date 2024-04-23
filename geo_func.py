@@ -34,6 +34,8 @@ def get_squares_from_rect(RectangularPolygon, side_length=0.0025):
     ### divide to n space
     yindices = np.linspace(y1, y2, ycells + 1)
     xindices = np.linspace(x1, x2, xcells + 1)
+
+    ## Each x/y, get y/x
     horizontal_splitters = [
         LineString([(x, yindices[0]), (x, yindices[-1])]) for x in xindices
     ]
