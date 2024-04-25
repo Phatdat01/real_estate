@@ -71,5 +71,4 @@ plt.pcolormesh(mask.reshape(W, H), cmap="binary")  # Reshape for plotting
 plt.xlabel("X-axis")
 plt.ylabel("Y-axis")
 plt.title("2D Array Visualization")
-
 plt.savefig("my_mask_visualization.png")

@@ -49,7 +49,7 @@ def get_squares_from_rect(RectangularPolygon, side_length=0.0025):
         result = MultiPolygon(split(result, splitter))
     square = []
     for res in result.geoms:
-      square.append(res)
+        square.append(res)
     return square
 
 
