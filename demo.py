@@ -10,12 +10,11 @@ def sub(image: np.ndarray,x1:int, y1:int, x2:int, y2:int)-> np.ndarray:
 def calculate(matrix: np.ndarray):
     ## Just True point
     count = np.count_nonzero(matrix)
-    area = count*0.3*0.3
+    area = count*0.3**2
     print(area)
-
     ## All point
     rows, cols = matrix.shape
-    print(rows*cols*0.3*0.3)
+    print(rows*cols*0.3**2)
 
 def main(x1: int, x2:int,y1:int,y2:int):
     mask = np.load('mask.npy')
