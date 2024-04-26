@@ -28,8 +28,6 @@ def split_mask(mask, rows=8, cols =8):
 	for i in reversed(range(rows)):
 		if i%2==0:
 			col_indices=range(cols)
-		else:
-			col_indices=reversed(range(cols))
 
 def main():
 	mask = np.load('mask.npy')
