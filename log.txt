@@ -1,0 +1,40 @@
+Dataset ver 1:
+- Upload re-train and test folder.
+- Haven't split mask images yet
+
+
+Dataset structure:
+Dataset
+	re-train
+		images (Images from other wards of Dalat)
+		annotations 
+	test
+		images (256 images from ward 12 after spliting, size 1024x1024)
+		annotations
+		images_raw (64 images from ward 12 before spliting, size 1926x1825)
+		
+Ver 1.1:
+- Update annotations for splited test images
+
+Dataset
+	re-train
+		images (51 images from other wards of Dalat)
+		annotations 
+	test
+		images (256 images from ward 12 after spliting, size 1024x1024)
+		annotations
+		images_raw (64 images from ward 12 before spliting, size 1926x1825)
+		annotations_raw
+
+Ver 1.2:
+- Update palettes of annotation for re-train dataset
+
+Dataset
+	re-train
+		images (50 images from other wards of Dalat)
+		annotations 
+	test
+		images (256 images from ward 12 after spliting, size 1024x1024)
+		annotations
+		images_raw (64 images from ward 12 before spliting, size 1926x1825)
+		annotations_raw

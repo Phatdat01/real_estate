@@ -1,8 +1,10 @@
 __pycache__
 **/__pycache__
 re_training
+Dataset_Ward12
 testing
 .venv
 my_mask_visualization.png
 preferences.json
 *.npy
+*.png
