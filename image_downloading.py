@@ -15,7 +15,7 @@ def download_tile(url, headers, channels):
 
 
 # Mercator projection
-# https://developers.google.com/maps/documentation/javascript/examples/map-coordinates
+# https://developers.google.com/maps/documentation/javasc ript/examples/map-coordinates
 def project_with_scale(lat, lon, scale):
     siny = np.sin(lat * np.pi / 180)
     siny = min(max(siny, -0.9999), 0.9999)
@@ -47,7 +47,7 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
     """
 
     scale = 1 << zoom
-
+ 
     # Find the pixel coordinates and tile coordinates of the corners
     tl_proj_x, tl_proj_y = project_with_scale(lat1, lon1, scale)
     br_proj_x, br_proj_y = project_with_scale(lat2, lon2, scale)

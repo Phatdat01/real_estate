@@ -19,7 +19,7 @@ def calculate(matrix: np.ndarray):
 def main(x1: int, x2:int,y1:int,y2:int):
     mask = np.load('mask.npy')
     image = Image.open("big_anno.png")
-    # rotated_image = image.rotate(-90).resize(mask.shape).transpose(Image.FLIP_LEFT_RIGHT)
+    # rotated_image = image.rotate(-90).resize(mask.shape).transpose(Image.FLIP   _LEFT_RIGHT)
     # image_array = np.array(rotated_image)
     matrix = sub(image=mask, x1=x1, y1=y1,x2=x2,y2=y2)
     # img = sub(image=image_array, x1=0,y1=12000,x2=2000,y2=10000)
