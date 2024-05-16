@@ -4,11 +4,11 @@ import os
 import cv2
 def calculate_area(image, mask):
 	unique_values, counts = np.unique(image[mask], return_counts=True)
-
 	area={}
 	for i in range(len(unique_values)):
 		area[unique_values[i]] = (counts[i]*0.2986*0.2986)/1000000
 	return area
+
 def merging_row(index, folder_path):
     color_ranges = {        
         0: [255, 255, 255],

@@ -1,9 +1,10 @@
-from flask import Flask
-from flask_cors import CORS
-
+import json
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+
+from flask import Flask, jsonify
+from flask_cors import CORS
 
 from render_report import *
 
@@ -28,6 +29,7 @@ def merge_large_img():
         image=merging_row(i, folder_path=folder_path)
         big_images = np.concatenate((big_images, image))
     return big_images
+
 
 def get_area_total():
     print(calculate_area(big_images, mask))
@@ -65,14 +67,14 @@ def main(x1: int, x2:int,y1:int,y2:int):
     # plt.title("2D Array Visualization")
     # plt.show()
     get_total_area = get_area_total()
-    return {"statistic": get_total_area}
+    matrix = sub(image=big_images, x1=x1, y1=y1,x2=x2,y2=y2)
+    return jsonify({"total":matrix.tolist()})
     
 
 @app.route('/get_area', methods=['GET'])
 def get_area():
     json_data = main(x1=0, y1=12000,x2=2000,y2=10000)
     return json_data
-
 
 big_images = merge_large_img()
 
