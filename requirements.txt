@@ -4,3 +4,5 @@ opencv-python
 geopandas
 requests
 matplotlib
+flask
+flask_cors

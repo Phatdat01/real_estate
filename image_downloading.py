@@ -15,7 +15,7 @@ def download_tile(url, headers, channels):
 
 
 # Mercator projection
-# https://developers.google.com/maps/documentation/javasc ript/examples/map-coordinates
+# https://developers.google.com/maps/documentation/javascript/examples/map-coordinates
 def project_with_scale(lat, lon, scale):
     siny = np.sin(lat * np.pi / 180)
     siny = min(max(siny, -0.9999), 0.9999)
