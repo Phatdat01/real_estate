@@ -3,15 +3,13 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from render_report import *
 
 app = Flask(__name__)
 CORS(app)
-mask = np.load('mask.npy').reshape(14598, 15408)
-
 
 def merge_large_img():
     folder_path = "annotations"
@@ -43,39 +41,22 @@ def sub(image: np.ndarray,x1:int, y1:int, x2:int, y2:int)-> np.ndarray:
     submatrix = [row[x1:x2] for row in image[y2:y1]]
     resized_submatrix = np.resize(submatrix,(y1 - y2, x2 - x1))
     return resized_submatrix
-
-def calculate(matrix: np.ndarray):
-    ## Just True point
-    count = np.count_nonzero(matrix)
-    area = count*0.3**2
-    print(area)
-    ## All point
-    rows, cols = matrix.shape
-    print(rows*cols*0.3**2)
-
-def main(x1: int, x2:int,y1:int,y2:int):
-    # mask = np.load('mask.npy')
-    # # rotated_image = image.rotate(-90).resize(mask.shape).transpose(Image.FLIP   _LEFT_RIGHT)
-    # # image_array = np.array(rotated_image)
-    # matrix = sub(image=mask, x1=x1, y1=y1,x2=x2,y2=y2)
-    # # img = sub(image=image_array, x1=0,y1=12000,x2=2000,y2=10000)
-    # # calculate_area(image=img, mask=matrix)
-    # calculate(matrix=matrix)
-    # plt.pcolormesh(matrix, cmap="binary")
-    # plt.xlabel("X-axis")
-    # plt.ylabel("Y-axis")
-    # plt.title("2D Array Visualization")
-    # plt.show()
-    get_total_area = get_area_total()
-    matrix = sub(image=big_images, x1=x1, y1=y1,x2=x2,y2=y2)
-    return jsonify({"total":matrix.tolist()})
     
-
 @app.route('/get_area', methods=['GET'])
 def get_area():
-    json_data = main(x1=0, y1=12000,x2=2000,y2=10000)
-    return json_data
+    params = request.args.to_dict()
+    if params:
+        data = {key: int(value) for key, value in params.items()}
+        img = sub(image=big_images, x1=data['x1'], y1=data['y1'],x2=data['x2'],y2=data['y2'])
+        new_models = sub(image=mask, x1=data['x1'], y1=data['y1'],x2=data['x2'],y2=data['y2'])  
+        img[new_models == False] = 0
+        area = calculate_area(image=img, mask=new_models)
+        return jsonify({"img":img.tolist(), 'area': str(area)})
+    else:
+        return "Successfull Start!"
 
+
+mask = np.load('mask.npy')
 big_images = merge_large_img()
 
 if __name__=="__main__":
