@@ -48,8 +48,8 @@ def get_area():
     if params:
         data = {key: int(value) for key, value in params.items()}
         img = sub(image=big_images, x1=data['x1'], y1=data['y1'],x2=data['x2'],y2=data['y2'])
-        new_models = sub(image=mask, x1=data['x1'], y1=data['y1'],x2=data['x2'],y2=data['y2'])  
-        img[new_models == False] = 0
+        new_models = sub(image=new_mask, x1=data['x1'], y1=data['y1'],x2=data['x2'],y2=data['y2'])  
+        
         area = calculate_area(image=img, mask=new_models)
         return jsonify({"img":img.tolist(), 'area': str(area)})
     else:
@@ -57,7 +57,9 @@ def get_area():
 
 
 mask = np.load('mask.npy')
+new_mask = np.rot90(mask, k=1)
 big_images = merge_large_img()
+big_images[new_mask == False] = 0
 
 if __name__=="__main__":
     app.run(debug=True)
