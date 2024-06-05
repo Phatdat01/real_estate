@@ -38,6 +38,7 @@ def merging_row(index, folder_path):
         image = encode_image_to_1d(image, color_ranges)
         image_row = np.concatenate((image_row, image), axis=1)
     return image_row
+
 def encode_image_to_1d(image, color_ranges):
   """
   Encodes an image with specified color ranges to a 1D array with label values (0-6).

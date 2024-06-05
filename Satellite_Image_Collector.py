@@ -1,30 +1,27 @@
-import geopandas as gpd
-import matplotlib.pyplot as plt
 import numpy as np
-from image_downloading import  run
+import geopandas as gpd
+from typing import List
+import matplotlib.pyplot as plt
 from geo_func import split_polygon, read_geopandas_data
 
-def main():
-
-    #Load geometric data
-    geo= read_geopandas_data()
+def get_npy(province: str, district: str, ward: str):
+    geo= read_geopandas_data(province=province, district=district, ward=ward)
     G = np.random.choice(geo.geometry.values)
-    squares   = split_polygon(G,shape='square',thresh=0,side_length=0.005) #thresh is the coverage ratio
-    geo_series = gpd.GeoSeries([squares[56], squares[0]]) #choosing top-left and bottom-right squares
+    return G
 
-    # Create a figure and an axes object.
-    fig, ax = plt.subplots()
-    #Display the GeoSeries object on the axes object.
-    geo_series.plot(color = 'red', ax=ax)
-    geo.exterior.plot(color='blue', ax= ax)
-    plt.show()
+def get_custom_image(province: str, district: str, ward: str, lst_img: List[int] = []):
+    G = get_npy(province=province, district=district, ward=ward)
+    squares   = split_polygon(G,shape='square',thresh=0,side_length=0.005)
+    if len(lst_img) > 0:
+        lst_squares = [squares[i] for i in lst_img]
+    else:
+        lst_squares = squares
+    geo_series = gpd.GeoSeries(lst_squares)
 
-
-    for idx, bound in enumerate(geo_series):
-        #run func for downloading images and saving them
-        run(idx=idx,bound=bound.bounds)
-        pass
-
-
-if __name__ == "__main__":
-    main()
+    # # Create a figure and an axes object.
+    # fig, ax = plt.subplots()
+    # # Display the GeoSeries object on the axes object.
+    # geo_series.plot(color = 'red', ax=ax)
+    # geo.exterior.plot(color='blue', ax= ax)
+    # plt.show()
+    return geo_series

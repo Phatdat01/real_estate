@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from render_report import *
+from image_downloading import run
+from render_report import calculate_area, merging_row
+from Satellite_Image_Collector import get_custom_image
 
 app = Flask(__name__)
 CORS(app)
@@ -41,7 +43,32 @@ def sub(image: np.ndarray,x1:int, y1:int, x2:int, y2:int)-> np.ndarray:
     submatrix = [row[x1:x2] for row in image[y2:y1]]
     resized_submatrix = np.resize(submatrix,(y1 - y2, x2 - x1))
     return resized_submatrix
-    
+
+## Download Images
+@app.route("/download_img", methods=['POST'])
+def download_img():
+    params = request.args
+    if params:
+        data = {
+            key: [int(x) for x in params.getlist(key)] if key == 'lst_img' else params[key]
+            for key in params
+        }
+        province = data['province']
+        district = data['district']
+        ward = data['ward']
+        lst_img = data['lst_img']
+        geo_series = get_custom_image(province=province, district=district, ward=ward, lst_img=lst_img)
+        
+        for idx, bound in enumerate(geo_series):
+            try:
+                run(idx=lst_img[idx],bound=bound.bounds)
+            except:
+                run(idx=idx,bound=bound.bounds)
+        return "Done"
+    else:
+        return "You doesn't send ward information!"
+
+
 @app.route('/get_area', methods=['GET'])
 def get_area():
     params = request.args.to_dict()
