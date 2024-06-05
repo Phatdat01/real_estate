@@ -27,10 +27,9 @@ def calculate_area():
     """
     url = 'http://127.0.0.1:5000/get_area'
     params = {
-        'x1': 0,
-        'y1': 12000,
-        'x2': 2000,
-        'y2': 10000
+        'province': 'Lâm Đồng',
+        'district': 'Đà Lạt',
+        'ward':"12"
     }
     response = requests.get(url, params=params)
     try:

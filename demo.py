@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 from image_downloading import run
 from render_report import calculate_area, merging_row
-from Satellite_Image_Collector import get_custom_image
+from Satellite_Image_Collector import get_custom_image, get_npy
 
 app = Flask(__name__)
 CORS(app)
@@ -73,20 +73,17 @@ def download_img():
 def get_area():
     params = request.args.to_dict()
     if params:
-        data = {key: int(value) for key, value in params.items()}
-        img = sub(image=big_images, x1=data['x1'], y1=data['y1'],x2=data['x2'],y2=data['y2'])
-        new_models = sub(image=new_mask, x1=data['x1'], y1=data['y1'],x2=data['x2'],y2=data['y2'])  
+        data = {key: value for key, value in params.items()}
+        mask = get_npy(province=data['province'], district=data['district'], ward=data['ward'])
+        new_mask = np.rot90(mask, k=1)
+        # Change link img
+        big_images = merge_large_img()
+        big_images[new_mask == False] = 0  
         
-        area = calculate_area(image=img, mask=new_models)
-        return jsonify({"img":img.tolist(), 'area': str(area)})
+        area = calculate_area(image=big_images, mask=new_mask)
+        return jsonify({"img":big_images.tolist(), 'area': str(area)})
     else:
         return "Successfull Start!"
-
-
-mask = np.load('mask.npy')
-new_mask = np.rot90(mask, k=1)
-big_images = merge_large_img()
-big_images[new_mask == False] = 0
 
 if __name__=="__main__":
     app.run(debug=True)
