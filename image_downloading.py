@@ -4,6 +4,7 @@ import numpy as np
 import threading
 import os
 import json
+import shutil
 
 def download_tile(url, headers, channels):
     response = requests.get(url, headers=headers)
@@ -100,13 +101,19 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
     
     return img
 
-def run(idx, bound):
+def make_dir(root):
+    if not os.path.isdir(root):
+        os.mkdir(root)
+
+def run(idx, bound, data: json):
     file_dir = os.path.dirname("./")
     with open(os.path.join(file_dir, 'preferences.json'), 'r', encoding='utf-8') as f:
         prefs = json.loads(f.read())
 
-    if not os.path.isdir(prefs['dir']):
-        os.mkdir(prefs['dir'])
+    root = ""
+    for dir in ["data","images",data["province"],data["district"],data["ward"]]:
+        root = os.path.join(root,dir)
+        make_dir(root=root)
 
     zoom = 19 #zoom level of the image 
     lon1, lat2, lon2, lat1 = bound
@@ -120,7 +127,8 @@ def run(idx, bound):
         prefs['headers'], prefs['tile_size'], channels)
     
     name = f'{idx}.png'
-    cv2.imwrite(os.path.join(prefs['dir'], name), img)
+    cv2.imwrite(name, img)
+    shutil.move(name, os.path.join(root, name))
     print(f'Saved as {name}')
     return img
 def image_size(lat1: float, lon1: float, lat2: float,

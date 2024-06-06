@@ -61,7 +61,7 @@ def download_img():
         
         for idx, bound in enumerate(geo_series):
             try:
-                run(idx=lst_img[idx],bound=bound.bounds)
+                run(idx=lst_img[idx],bound=bound.bounds, data=data)
             except:
                 run(idx=idx,bound=bound.bounds)
         return "Done"

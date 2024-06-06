@@ -46,4 +46,4 @@ def calculate_area():
         print(data)
 
 if __name__=="__main__":
-    calculate_area()
+    download_satellite_image()
