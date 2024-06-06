@@ -1,3 +1,4 @@
+import os
 import json
 import numpy as np
 from PIL import Image
@@ -64,7 +65,7 @@ def download_img():
         }
 
         geo_series = get_custom_image(data=data)
-        if "lst_img" not in data:
+        if "lst_img" not in data or data["lst_img"]==[]:
             save_npy(geo_series,data)
         for idx, bound in enumerate(geo_series):
             try:
@@ -95,6 +96,36 @@ def get_area():
             return "Not having annotations or images!!!"
     else:
         return "Successfull Start!"
+    
+    
+# import torch
+# from mmengine.model.utils import revert_sync_batchnorm
+# from mmseg.apis import init_model, inference_model, show_result_pyplot
+# config_file = './configs/segformer/segformer_mit-b5_8xb2-160k_loveda-640x640.py'
+# checkpoint_file = '/mmsegmentation/data/segformer.pth'
+# # build the model from a config file and a checkpoint file
+# model = init_model(config_file, checkpoint_file, device='cuda')
+
+
+@app.route('/predict_data', methods=['POST'])
+def predict_data():
+    params = request.args.to_dict()
+    if params:
+        data = {key: value for key, value in params.items()}
+        root, flag = check_dir_tree(["data","images",data["province"],data["district"],data["ward"]])
+        root = root.replace("\\","\\\\")
+
+        for filename in os.listdir(root):
+            image_path = os.path.join(root, filename)
+
+            save_dir,_ = check_dir_tree(["data","annotations",data["province"], data["district"],data["ward"]])
+            save_dir = root.replace("\\","\\\\")
+            result = inference_model(model, image_path)
+            vis_iamge = show_result_pyplot(model, image_path, result, save_dir =save_dir,
+                                        opacity=1.0, show=False,  draw_gt=True, with_labels=False)
+            # vis_iamge = show_result_pyplot(model, image_path, result, save_dir ='data/results/',
+            #                             opacity=1.0, show=False,  draw_gt=True, with_labels=False)
+
 
 if __name__=="__main__":
     app.run(debug=True)

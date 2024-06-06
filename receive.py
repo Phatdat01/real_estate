@@ -10,7 +10,8 @@ def download_satellite_image():
     params = {
         'province': 'Lâm Đồng',
         'district': 'Đà Lạt',
-        'ward':"12"
+        'ward':"12",
+        'lst_img': [56,3]
     }
     response = requests.post(url, params=params)
     try:

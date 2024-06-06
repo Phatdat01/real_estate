@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import numpy as np
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -23,10 +24,12 @@ def is_point_inside_polygon(path,point):
 
 def save_npy(geo_series, data):
 
+    start = time.time()
     tf_lon, _, _, tf_lat = geo_series[56].bounds
     _, br_lat, br_lon, _ = geo_series[0].bounds
 
     W, H = image_size(tf_lat, tf_lon, br_lat, br_lon, zoom=19)
+    print(W,H)
     dx = (br_lon-tf_lon)/W
     dy = (tf_lat-br_lat)/H
 
@@ -44,11 +47,14 @@ def save_npy(geo_series, data):
     boundary = Polygon(read_geopandas_data()[5485])
     path = Path(list(boundary.exterior.coords)) 
     mask = np.full(lat.shape, False, dtype=bool)
+    print(lon.shape, lat.shape)
     for i in range(W):
+        if(i%500 == 0):
+            print(time.time()-start)
         for j in range(H):
             mask[i,j] = is_point_inside_polygon(path,(lon[i][j], lat[i][j]))
-    root, flag = check_dir_tree("data","mask",data["province"],data["district"],data["ward"])
-    np.save("mask", mask)
+    root, _ = check_dir_tree(["data","mask",data["province"],data["district"],data["ward"]])
+    np.save(os.path.join(root,"mask"), mask)
 
 
 def get_geometry(province: str, district: str, ward: str) -> BaseGeometry:
