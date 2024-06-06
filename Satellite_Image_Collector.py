@@ -44,7 +44,7 @@ def save_npy(geo_series, data):
     lon = np.add(image_dx*dx, tf_lon)
     lat = np.add(image_dy*dy, br_lat)
     area = {}
-    boundary = Polygon(read_geopandas_data()[5485])
+    boundary = Polygon(read_geopandas_data(province=data["province"], district=data["district"],ward=data["ward"])[5485])
     path = Path(list(boundary.exterior.coords)) 
     mask = np.full(lat.shape, False, dtype=bool)
     print(lon.shape, lat.shape)

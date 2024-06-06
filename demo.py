@@ -126,6 +126,9 @@ def predict_data():
             # vis_iamge = show_result_pyplot(model, image_path, result, save_dir ='data/results/',
             #                             opacity=1.0, show=False,  draw_gt=True, with_labels=False)
 
+        return "abc"
+    return "done have model"
+
 
 if __name__=="__main__":
     app.run(debug=True)
