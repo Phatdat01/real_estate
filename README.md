@@ -12,3 +12,7 @@ lst_img: index of image download
 
 Edit
 # File Satellite_Image_Collector
+# image_downloading
+# receive
+# demo
+# render report
