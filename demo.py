@@ -21,7 +21,6 @@ def merge_large_img(data: json = {}):
         flag = True
     else:
         root,flag = check_dir_tree(dir_tree= ["data","annotations", data['province'], data["district"],data["ward"]])
-        root = root.replace("\\","\\\\")
     if flag:
         index1=[i for i in range(56,64)]
         index2=[i for i in range(48,56)]
@@ -77,13 +76,13 @@ def download_img():
         return "You doesn't send ward information!"
 
 
-@app.route('/get_area', methods=['GET'])
+@app.route('/get_area', methods=['POST'])
 def get_area():
     params = request.args.to_dict()
     if params:
         data = {key: value for key, value in params.items()}
         mask = get_npy(data=data)
-        big_images = merge_large_img()
+        big_images = merge_large_img(data=data)
         # Change link img
         if isinstance(mask, np.ndarray) and isinstance(big_images, np.ndarray):
             new_mask = np.rot90(mask, k=1)

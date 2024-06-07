@@ -1,13 +1,40 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import os
 import cv2
+import numpy as np
+import imageio.v3 as iio
+import matplotlib.pyplot as plt
+
 def calculate_area(image, mask):
 	unique_values, counts = np.unique(image[mask], return_counts=True)
 	area={}
 	for i in range(len(unique_values)):
 		area[unique_values[i]] = (counts[i]*0.2986*0.2986)/1000000
 	return area
+
+def open_img(root: str) -> np.ndarray:
+    """
+    Because cv2 doesn't know unicode link, we use iio
+
+    Args:
+        root: str
+            path of img
+    
+    Returns:
+        img
+    """
+    root = root.replace("\\","\\\\")
+    if not os.path.exists(root):
+        print(f"File does not exist: {root}")
+        return False
+    else:
+        try:
+            image = iio.imread(root)
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            return image
+        except Exception as e:
+            print(f"Failed to read the image with imageio: {e}")
+            return False
+
 
 def merging_row(index, folder_path):
     color_ranges = {        
@@ -21,7 +48,8 @@ def merging_row(index, folder_path):
     }
     flaw_size = np.array([39, 38, 37, 36, 35, 34, 33, 32, 23, 22, 21, 20, 19, 18, 17, 16, ])
 
-    image_row=cv2.imread(os.path.join(folder_path, str(index[0])+".png"))
+    img_path = os.path.join(folder_path, str(index[0])+".png")
+    image_row = open_img(root=img_path)
     if np.isin(index[0], flaw_size):
         image_row = cv2.resize(image_row,(1926, 1824))
     else:
@@ -29,7 +57,7 @@ def merging_row(index, folder_path):
     image_row = encode_image_to_1d(image_row, color_ranges)
     for i in index[1:]:
         image_path = os.path.join(folder_path, str(i)+".png")
-        image=cv2.imread(image_path)
+        image = open_img(root=image_path)
         if np.isin(i, flaw_size):
             image = cv2.resize(image,(1926, 1824))
         else:

@@ -41,7 +41,8 @@ lon = np.add(image_dx*dx, tf_lon)
 lat = np.add(image_dy*dy, br_lat)
 
 area = {}
-boundary = Polygon(read_geopandas_data()[5485])
+
+boundary = Polygon(geo_series[geo_series.index[0]])
 
 path = Path(list(boundary.exterior.coords))  # Create Path from Polygon's vertices
 

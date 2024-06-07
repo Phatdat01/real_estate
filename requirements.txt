@@ -1,6 +1,7 @@
 numpy
 shapely
 opencv-python
+imageio
 geopandas
 requests
 matplotlib
