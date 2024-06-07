@@ -35,6 +35,11 @@ mask = np.array([[True, False, True, False],
                  [True, False, True, False],
                  [False, True, False, True]])
 
-visualize_mask(image)
-result = calculate_area(image, mask)
+# visualize_mask(image)
+# result = calculate_area(image, mask)
+image[np.arange(len(image)), np.sum(mask, axis=1)] = 0
+
+# Keep the values in "image" where the corresponding elements in "mask" are True
+result = np.where(mask, image, 0)
+
 print(result)

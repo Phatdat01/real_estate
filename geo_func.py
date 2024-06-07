@@ -3,7 +3,7 @@ import numpy as np
 from shapely.ops import split
 from shapely.geometry import MultiPolygon, LineString
 
-def read_geopandas_data():
+def read_geopandas_data(province: str = "Lâm Đồng", district: str ="Đà Lạt", ward: str ="12"):
     """
         get data point columns: ((x1,y1),,...)
     """
@@ -11,9 +11,11 @@ def read_geopandas_data():
     # Load the JSON data
     data = gpd.read_file(file)
     data = gpd.GeoDataFrame(data, crs='WGS84')
-    dalat= data[data['NAME_2']=='Đà Lạt' ] #chosing a district base on dataset
-    Ward=dalat[dalat['NAME_3']=='12'] #choosing a ward of that district
-    return Ward['geometry'] 
+
+    ward_data = data[data['NAME_1'] == province]    
+    ward_data= ward_data[ward_data['NAME_2']== district] #chosing a district base on dataset
+    ward_data=ward_data[ward_data['NAME_3']== ward] #choosing a ward of that district
+    return ward_data['geometry'] 
 
 
 def get_squares_from_rect(RectangularPolygon, side_length=0.0025):

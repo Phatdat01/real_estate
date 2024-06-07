@@ -1,6 +1,9 @@
 numpy
 shapely
 opencv-python
+imageio
 geopandas
 requests
 matplotlib
+flask
+flask_cors

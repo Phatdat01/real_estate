@@ -4,6 +4,8 @@ import numpy as np
 import threading
 import os
 import json
+import shutil
+from typing import List, Tuple
 
 def download_tile(url, headers, channels):
     response = requests.get(url, headers=headers)
@@ -47,7 +49,7 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
     """
 
     scale = 1 << zoom
-
+ 
     # Find the pixel coordinates and tile coordinates of the corners
     tl_proj_x, tl_proj_y = project_with_scale(lat1, lon1, scale)
     br_proj_x, br_proj_y = project_with_scale(lat2, lon2, scale)
@@ -100,13 +102,32 @@ def download_image(lat1: float, lon1: float, lat2: float, lon2: float,
     
     return img
 
-def run(idx, bound):
+def make_dir(root):
+    if not os.path.isdir(root):
+        os.mkdir(root)
+        return False
+    return True
+
+def check_dir_tree(dir_tree: List[str]) -> Tuple[str, bool]:
+    root = ""
+    flag = True
+    for dir in dir_tree:
+        root = os.path.join(root,dir)
+        if not make_dir(root=root):
+            flag = False
+    files = os.listdir(root)
+    if len(files)== 0:
+        flag = False
+    root = root.replace("\\","\\\\")
+    return root, flag
+
+def run(idx, bound, data: json):
     file_dir = os.path.dirname("./")
     with open(os.path.join(file_dir, 'preferences.json'), 'r', encoding='utf-8') as f:
         prefs = json.loads(f.read())
 
-    if not os.path.isdir(prefs['dir']):
-        os.mkdir(prefs['dir'])
+    # Check where saving    
+    root,_ = check_dir_tree(dir_tree=["data","images",data["province"],data["district"],data["ward"]])
 
     zoom = 19 #zoom level of the image 
     lon1, lat2, lon2, lat1 = bound
@@ -120,9 +141,10 @@ def run(idx, bound):
         prefs['headers'], prefs['tile_size'], channels)
     
     name = f'{idx}.png'
-    cv2.imwrite(os.path.join(prefs['dir'], name), img)
+    cv2.imwrite(name, img)
+    shutil.move(name, os.path.join(root, name))
     print(f'Saved as {name}')
-    return img
+
 def image_size(lat1: float, lon1: float, lat2: float,
     lon2: float, zoom: int, tile_size: int = 256):
     """ Calculates the size of an image without downloading it. Returns a `(width, height)` tuple. """
