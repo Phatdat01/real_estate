@@ -25,7 +25,7 @@ def is_point_inside_polygon(path,point):
 def save_npy(geo_series, data):
 
     start = time.time()
-    tf_lon, _, _, tf_lat = geo_series[56].bounds
+    tf_lon, _, _, tf_lat = geo_series.iloc[-1].bounds
     _, br_lat, br_lon, _ = geo_series[0].bounds
 
     W, H = image_size(tf_lat, tf_lon, br_lat, br_lon, zoom=19)
