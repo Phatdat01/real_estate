@@ -25,7 +25,7 @@ def is_point_inside_polygon(path,point):
 def save_npy(geo_series, data):
 
     start = time.time()
-    tf_lon, _, _, tf_lat = geo_series[56].bounds
+    tf_lon, _, _, tf_lat = geo_series.iloc[-1].bounds
     _, br_lat, br_lon, _ = geo_series[0].bounds
 
     W, H = image_size(tf_lat, tf_lon, br_lat, br_lon, zoom=19)
@@ -44,7 +44,7 @@ def save_npy(geo_series, data):
     lon = np.add(image_dx*dx, tf_lon)
     lat = np.add(image_dy*dy, br_lat)
     area = {}
-    boundary = Polygon(read_geopandas_data(province=data["province"], district=data["district"],ward=data["ward"])[5485])
+    boundary = Polygon(geo_series[geo_series.index[0]])
     path = Path(list(boundary.exterior.coords)) 
     mask = np.full(lat.shape, False, dtype=bool)
     print(lon.shape, lat.shape)

@@ -29,12 +29,11 @@ def calculate_area():
     params = {
         'province': 'Lâm Đồng',
         'district': 'Đà Lạt',
-        'ward':"11"
+        'ward':"12"
     }
-    response = requests.get(url, params=params)
+    response = requests.post(url, params=params)
     try:
         data = json.loads(response.content)
-        # img = data['img']
         area = data['area']
         area_dict = eval(area)
         # plt.imshow(img, cmap='viridis')
@@ -46,4 +45,4 @@ def calculate_area():
         print(data)
 
 if __name__=="__main__":
-    download_satellite_image()
+    calculate_area()
