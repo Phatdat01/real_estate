@@ -97,7 +97,7 @@ def get_area():
     else:
         return "Successfull Start!"
     
-    
+
 # import torch
 # from mmengine.model.utils import revert_sync_batchnorm
 # from mmseg.apis import init_model, inference_model, show_result_pyplot
