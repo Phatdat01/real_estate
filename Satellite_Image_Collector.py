@@ -40,6 +40,7 @@ def save_npy(geo_series, data):
     start = time.time()
     if 'W_num' in data and data['W_num']!='':
         W_num = int(data['W_num'])
+        print(W_num)
     else:
         W_num = check_num_img(geo_series)
         print(W_num)
@@ -61,7 +62,7 @@ def save_npy(geo_series, data):
 
     lon = np.add(image_dx*dx, tf_lon)
     lat = np.add(image_dy*dy, br_lat)
-    
+
     boundary = Polygon(geo_series[geo_series.index[0]])
     path = Path(list(boundary.exterior.coords)) 
     mask = np.full(lat.shape, False, dtype=bool)

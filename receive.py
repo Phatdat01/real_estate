@@ -7,24 +7,24 @@ def download_satellite_image():
     """Send ward params to download"""
  
     url = 'http://127.0.0.1:5000/download_img'
-    params = {
-        'province': 'Lâm Đồng',
-        'district': 'Đà Lạt',
-        'ward':"11",
-        'lst_img': []
-    }
+    # params = {
+    #     'province': 'Lâm Đồng',
+    #     'district': 'Đà Lạt',
+    #     'ward':"11",
+    #     'lst_img': []
+    # }
     # params = {
     #     'province': 'Hồ Chí Minh city',
     #     'district': 'Quận 1',
     #     'ward':"Nguyễn Cư Trinh",
     #     'lst_img': []
     # }
-    # params = {
-    #     'province': 'Lâm Đồng',
-    #     'district': 'Đà Lạt',
-    #     'ward':"12",
-    #     'lst_img': []
-    # }
+    params = {
+        'province': 'Lâm Đồng',
+        'district': 'Đà Lạt',
+        'ward':"12",
+        'lst_img': []
+    }
     response = requests.post(url, params=params)
     try:
         data = json.loads(response.content)
