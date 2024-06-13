@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import math
 import numpy as np
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -22,10 +23,28 @@ def get_npy(data: json) -> np.ndarray:
 def is_point_inside_polygon(path,point):
     return path.contains_point(point)
 
-def save_npy(geo_series, G, data):
+def check_num_img(geo_series):
+    num = len(geo_series)
+    if math.sqrt(num).is_integer():
+        return math.sqrt(num)
+    else:
+        W = 1     
+        for i in range(2,int(num/2)+1):
+            H = num/i
+            if H.is_integer() and abs(H-i) <= abs(num/W-W):
+                W = i
+        return W
+
+def save_npy(geo_series, data):
 
     start = time.time()
-    tf_lon, _, _, tf_lat = geo_series.iloc[-1].bounds
+    if 'W_num' in data and data['W_num']!='':
+        W_num = int(data['W_num'])
+        print(W_num)
+    else:
+        W_num = check_num_img(geo_series)
+        print(W_num)
+    tf_lon, _, _, tf_lat = geo_series[geo_series.index[-1]-W_num+1].bounds
     _, br_lat, br_lon, _ = geo_series[0].bounds
 
     W, H = image_size(tf_lat, tf_lon, br_lat, br_lon, zoom=19)
@@ -55,7 +74,7 @@ def save_npy(geo_series, G, data):
             mask[i,j] = is_point_inside_polygon(path,(lon[i][j], lat[i][j]))
     root, _ = check_dir_tree(["data","mask",data["province"],data["district"],data["ward"]])
     np.save(os.path.join(root,"mask"), mask)
-
+    
 
 def get_geometry(province: str, district: str, ward: str) -> BaseGeometry:
     geo= read_geopandas_data(province=province, district=district, ward=ward)

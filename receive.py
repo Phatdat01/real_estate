@@ -7,10 +7,22 @@ def download_satellite_image():
     """Send ward params to download"""
  
     url = 'http://127.0.0.1:5000/download_img'
+    # params = {
+    #     'province': 'Lâm Đồng',
+    #     'district': 'Đà Lạt',
+    #     'ward':"11",
+    #     'lst_img': []
+    # }
+    # params = {
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh",
+    #     'lst_img': []
+    # }
     params = {
         'province': 'Lâm Đồng',
         'district': 'Đà Lạt',
-        'ward':"11",
+        'ward':"12",
         'lst_img': []
     }
     response = requests.post(url, params=params)
@@ -44,5 +56,19 @@ def calculate_area():
         data = response.content
         print(data)
 
+def check_img():
+    url = 'http://127.0.0.1:5000/check_img'
+    params = {
+        'province': 'Hồ Chí Minh city',
+        'district': 'Quận 1',
+        'ward':"Nguyễn Cư Trinh",
+        'W':2,
+        'H':2
+    }
+
+    response = requests.post(url, params=params)
+    data = response.content
+    print(data)
+
 if __name__=="__main__":
-    calculate_area()
+    download_satellite_image()

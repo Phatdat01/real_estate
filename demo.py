@@ -28,7 +28,7 @@ def merge_large_img(data: json = {}):
         index4=[i for i in range(32,40)]
         index5=[i for i in range(24,32)]
         index6=[i for i in range(16,24)]
-        index7=[i for i in range(8,16)] 
+        index7=[i for i in range(8,16)]
         index8 = np.arange(7, -1, -1)
         index = [index1, index2, index3, index4, index5, index6, index7, index8]
         big_images=merging_row(index[0], folder_path=root)
@@ -96,7 +96,7 @@ def get_area():
     else:
         return "Successfull Start!"
     
-
+    
 # import torch
 # from mmengine.model.utils import revert_sync_batchnorm
 # from mmseg.apis import init_model, inference_model, show_result_pyplot
