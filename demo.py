@@ -63,9 +63,9 @@ def download_img():
             for key in params
         }
 
-        geo_series = get_custom_image(data=data)
+        geo_series, G = get_custom_image(data=data)
         if "lst_img" not in data or data["lst_img"]==[]:
-            save_npy(geo_series,data)
+            save_npy(geo_series,G, data)
         for idx, bound in enumerate(geo_series):
             try:
                 run(idx=data['lst_img'][idx],bound=bound.bounds, data=data)

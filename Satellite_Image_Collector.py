@@ -22,7 +22,7 @@ def get_npy(data: json) -> np.ndarray:
 def is_point_inside_polygon(path,point):
     return path.contains_point(point)
 
-def save_npy(geo_series, data):
+def save_npy(geo_series, G, data):
 
     start = time.time()
     tf_lon, _, _, tf_lat = geo_series.iloc[-1].bounds
@@ -44,7 +44,7 @@ def save_npy(geo_series, data):
     lon = np.add(image_dx*dx, tf_lon)
     lat = np.add(image_dy*dy, br_lat)
     area = {}
-    boundary = Polygon(geo_series[geo_series.index[0]])
+    boundary = G
     path = Path(list(boundary.exterior.coords)) 
     mask = np.full(lat.shape, False, dtype=bool)
     print(lon.shape, lat.shape)
@@ -84,4 +84,4 @@ def get_custom_image(data: json):
     # geo_series.plot(color = 'red', ax=ax)
     # geo.exterior.plot(color='blue', ax= ax)
     # plt.show()
-    return geo_series
+    return geo_series, G
