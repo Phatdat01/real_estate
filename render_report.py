@@ -1,7 +1,7 @@
 import os
 import cv2
 import numpy as np
-import imageio.v3 as iio
+import imageio as iio
 import matplotlib.pyplot as plt
 
 def calculate_area(image, mask):

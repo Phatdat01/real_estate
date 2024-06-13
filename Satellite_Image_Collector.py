@@ -35,15 +35,27 @@ def check_num_img(geo_series):
                 W = i
         return W
 
-def save_npy(geo_series, data):
+def save_size(W: int, H: int, root: str):
+    with open(f"{root}\\\\size.txt", "w", encoding="utf-8") as file:
+        file.write(str(W) + "\n")
+        file.write(str(H) + "\n")
+
+def read_size(root: str):
+    with open(f"{root}\\\\size.txt", "r", encoding="utf-8") as file:
+        # Read the width and height values from the file
+        W = int(file.readline().strip())
+        H = int(file.readline().strip())
+    return W, H
+
+def save_npy(geo_series, G, data):
 
     start = time.time()
     if 'W_num' in data and data['W_num']!='':
         W_num = int(data['W_num'])
-        print(W_num)
     else:
         W_num = check_num_img(geo_series)
-        print(W_num)
+    print(W_num)
+
     tf_lon, _, _, tf_lat = geo_series[geo_series.index[-1]-W_num+1].bounds
     _, br_lat, br_lon, _ = geo_series[0].bounds
 
@@ -73,7 +85,8 @@ def save_npy(geo_series, data):
         for j in range(H):
             mask[i,j] = is_point_inside_polygon(path,(lon[i][j], lat[i][j]))
     root, _ = check_dir_tree(["data","mask",data["province"],data["district"],data["ward"]])
-    np.save(os.path.join(root,"mask"), mask)
+    np.save(os.path.join(root,"mask"), mask)  
+    save_size(W=round(W_num), H= round(len(geo_series)/W_num), root=root)
     
 
 def get_geometry(province: str, district: str, ward: str) -> BaseGeometry:

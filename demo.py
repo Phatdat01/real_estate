@@ -9,7 +9,7 @@ from flask_cors import CORS
 
 from image_downloading import run, check_dir_tree
 from render_report import calculate_area, merging_row
-from Satellite_Image_Collector import get_custom_image, get_npy, save_npy
+from Satellite_Image_Collector import get_custom_image, get_npy, save_npy, read_size
 
 app = Flask(__name__)
 CORS(app)
@@ -22,15 +22,22 @@ def merge_large_img(data: json = {}):
     else:
         root,flag = check_dir_tree(dir_tree= ["data","annotations", data['province'], data["district"],data["ward"]])
     if flag:
-        index1=[i for i in range(56,64)]
-        index2=[i for i in range(48,56)]
-        index3=[i for i in range(40,48)]
-        index4=[i for i in range(32,40)]
-        index5=[i for i in range(24,32)]
-        index6=[i for i in range(16,24)]
-        index7=[i for i in range(8,16)]
-        index8 = np.arange(7, -1, -1)
-        index = [index1, index2, index3, index4, index5, index6, index7, index8]
+        size_path = root.replace("annotations","mask")
+        W, H = read_size(root=size_path)
+
+        index = []
+        for i in range(H,1, -1):
+            index.append([x for x in range(W*i-W, W*i)])
+        index.append(np.arange(W-1,-1,-1))
+        # index1=[i for i in range(56,64)]
+        # index2=[i for i in range(48,56)]
+        # index3=[i for i in range(40,48)]
+        # index4=[i for i in range(32,40)]
+        # index5=[i for i in range(24,32)]
+        # index6=[i for i in range(16,24)]
+        # index7=[i for i in range(8,16)]
+        # index8 = np.arange(7, -1, -1)
+        # index = [index1, index2, index3, index4, index5, index6, index7, index8]
         big_images=merging_row(index[0], folder_path=root)
         for i in index[1:]:
             image=merging_row(i, folder_path=root)

@@ -56,19 +56,5 @@ def calculate_area():
         data = response.content
         print(data)
 
-def check_img():
-    url = 'http://127.0.0.1:5000/check_img'
-    params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh",
-        'W':2,
-        'H':2
-    }
-
-    response = requests.post(url, params=params)
-    data = response.content
-    print(data)
-
 if __name__=="__main__":
-    download_satellite_image()
+    calculate_area()
