@@ -13,6 +13,18 @@ def download_satellite_image():
         'ward':"11",
         'lst_img': []
     }
+    # params = {
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh",
+    #     'lst_img': []
+    # }
+    # params = {
+    #     'province': 'Lâm Đồng',
+    #     'district': 'Đà Lạt',
+    #     'ward':"12",
+    #     'lst_img': []
+    # }
     response = requests.post(url, params=params)
     try:
         data = json.loads(response.content)
@@ -45,4 +57,4 @@ def calculate_area():
         print(data)
 
 if __name__=="__main__":
-    calculate_area()
+    download_satellite_image()

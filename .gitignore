@@ -9,3 +9,4 @@ my_mask_visualization.png
 preferences.json
 *.npy
 *.png
+*.pth

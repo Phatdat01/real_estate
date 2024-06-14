@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import math
 import numpy as np
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -22,10 +23,40 @@ def get_npy(data: json) -> np.ndarray:
 def is_point_inside_polygon(path,point):
     return path.contains_point(point)
 
-def save_npy(geo_series, data):
+def check_num_img(geo_series):
+    num = len(geo_series)
+    if math.sqrt(num).is_integer():
+        return math.sqrt(num)
+    else:
+        W = 1     
+        for i in range(2,int(num/2)+1):
+            H = num/i
+            if H.is_integer() and abs(H-i) <= abs(num/W-W):
+                W = i
+        return W
+
+def save_size(W: int, H: int, root: str):
+    with open(f"{root}\\\\size.txt", "w", encoding="utf-8") as file:
+        file.write(str(W) + "\n")
+        file.write(str(H) + "\n")
+
+def read_size(root: str):
+    with open(f"{root}\\\\size.txt", "r", encoding="utf-8") as file:
+        # Read the width and height values from the file
+        W = int(file.readline().strip())
+        H = int(file.readline().strip())
+    return W, H
+
+def save_npy(geo_series, G, data):
 
     start = time.time()
-    tf_lon, _, _, tf_lat = geo_series[56].bounds
+    if 'W_num' in data and data['W_num']!='':
+        W_num = int(data['W_num'])
+    else:
+        W_num = check_num_img(geo_series)
+    print(W_num)
+
+    tf_lon, _, _, tf_lat = geo_series[geo_series.index[-1]-W_num+1].bounds
     _, br_lat, br_lon, _ = geo_series[0].bounds
 
     W, H = image_size(tf_lat, tf_lon, br_lat, br_lon, zoom=19)
@@ -44,7 +75,7 @@ def save_npy(geo_series, data):
     lon = np.add(image_dx*dx, tf_lon)
     lat = np.add(image_dy*dy, br_lat)
     area = {}
-    boundary = Polygon(geo_series[geo_series.index[0]])
+    boundary = G
     path = Path(list(boundary.exterior.coords)) 
     mask = np.full(lat.shape, False, dtype=bool)
     print(lon.shape, lat.shape)
@@ -54,8 +85,9 @@ def save_npy(geo_series, data):
         for j in range(H):
             mask[i,j] = is_point_inside_polygon(path,(lon[i][j], lat[i][j]))
     root, _ = check_dir_tree(["data","mask",data["province"],data["district"],data["ward"]])
-    np.save(os.path.join(root,"mask"), mask)
-
+    np.save(os.path.join(root,"mask"), mask)  
+    save_size(W=round(W_num), H= round(len(geo_series)/W_num), root=root)
+    
 
 def get_geometry(province: str, district: str, ward: str) -> BaseGeometry:
     geo= read_geopandas_data(province=province, district=district, ward=ward)
@@ -84,4 +116,4 @@ def get_custom_image(data: json):
     # geo_series.plot(color = 'red', ax=ax)
     # geo.exterior.plot(color='blue', ax= ax)
     # plt.show()
-    return geo_series
+    return geo_series, G
