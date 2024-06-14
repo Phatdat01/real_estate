@@ -10,7 +10,7 @@ def download_satellite_image():
     params = {
         'province': 'Lâm Đồng',
         'district': 'Đà Lạt',
-        'ward':"11",
+        'ward':"6",
         'lst_img': []
     }
     # params = {
@@ -38,10 +38,15 @@ def calculate_area():
     Send params to calculate area
     """
     url = 'http://127.0.0.1:5000/get_area'
+    # params = {
+    #     'province': 'Lâm Đồng',
+    #     'district': 'Đà Lạt',
+    #     'ward':"12"
+    # }
     params = {
         'province': 'Lâm Đồng',
         'district': 'Đà Lạt',
-        'ward':"12"
+        'ward':"6"
     }
     response = requests.post(url, params=params)
     try:
@@ -57,4 +62,4 @@ def calculate_area():
         print(data)
 
 if __name__=="__main__":
-    download_satellite_image()
+    calculate_area()
