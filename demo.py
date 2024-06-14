@@ -1,5 +1,6 @@
 import os
 import json
+import cv2
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -40,8 +41,12 @@ def merge_large_img(data: json = {}):
         # index = [index1, index2, index3, index4, index5, index6, index7, index8]
         big_images=merging_row(index[0], folder_path=root)
         for i in index[1:]:
-            image=merging_row(i, folder_path=root)
-            big_images = np.concatenate((big_images, image))
+            try:
+                image=merging_row(i, folder_path=root)
+                big_images = np.concatenate((big_images, image))
+            except:
+                image=merging_row(i, folder_path=root, flag=False)
+                big_images = np.concatenate((big_images, image))
         return big_images
     else:
         return False
@@ -93,9 +98,15 @@ def get_area():
         # Change link img
         if isinstance(mask, np.ndarray) and isinstance(big_images, np.ndarray):
             new_mask = np.rot90(mask, k=1)
-            big_images[new_mask == False] = 0  
-            
-            area = calculate_area(image=big_images, mask=new_mask)
+            if new_mask.shape == big_images.shape:
+                resized_mask = new_mask
+            else:
+                new_mask_shape = new_mask.shape
+                # Resize new_mask to match big_images if dimensions differ
+                resized_big_images = cv2.resize(big_images, (new_mask_shape[1], new_mask_shape[0]))
+
+            resized_big_images[new_mask == False] = False 
+            area = calculate_area(image=resized_big_images, mask=new_mask)
             return ({'area': str(area)})
             # return jsonify({"img":big_images.tolist(), 'area': str(area)})
         else:
