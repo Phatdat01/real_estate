@@ -13,8 +13,17 @@ from shapely.geometry.base import BaseGeometry
 
 from geo_func import split_polygon, read_geopandas_data
 
+def check_json(key: str,data: json):
+    if key in data and data[key]!= "":
+        return True
+    return False
+
 def get_npy(data: json) -> np.ndarray:
-    root,flag = check_dir_tree(dir_tree= ["data","mask",data["province"],data["district"],data["ward"]])
+    mask_keys = ("province_mask", "district_mask", "ward_mask")
+    if all(check_json(key, data) for key in mask_keys):
+        root,flag = check_dir_tree(dir_tree= ["data","mask",data["province_mask"],data["district_mask"],data["ward_mask"]])
+    else:    
+        root,flag = check_dir_tree(dir_tree= ["data","mask",data["province"],data["district"],data["ward"]])
     if flag:
         mask = np.load(os.path.join(root,"mask.npy"))
         return mask
