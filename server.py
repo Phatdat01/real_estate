@@ -28,7 +28,6 @@ def merge_large_img(data: json = {}):
         else:
             flag = True
             root = data['annotations'].replace("\\","\\\\").replace("/","\\\\")
-            print(root)
     try:
         if flag:
             size_path = root.replace("annotations","mask")
@@ -57,8 +56,10 @@ def merge_large_img(data: json = {}):
                     big_images = np.concatenate((big_images, image))
             return big_images
         else:
+            print("Can't load annotations")
             return False
     except:
+        print("Can't load annotations")
         return False
 
 
@@ -156,6 +157,9 @@ def predict_data():
         return "abc"
     return "done have model"
 
+@app.route('/', methods=['GET'])
+def home():
+    return "Hello World!"
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

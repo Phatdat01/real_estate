@@ -94,31 +94,31 @@ def encode_image_to_1d(image, color_ranges):
   print(unique_values, counts)
 
   return img_classes
-def get_area_total():
-    mask = np.load('mask.npy').reshape(14598, 15408)
-    folder_path = "annotations"
-    index1=[i for i in range(56,64)]
-    index2=[i for i in range(48,56)]
-    index3=[i for i in range(40,48)]
-    index4=[i for i in range(32,40)]
-    index5=[i for i in range(24,32)]
-    index6=[i for i in range(16,24)]
-    index7=[i for i in range(8,16)] 
-    index8 = np.arange(7, -1, -1)
-    index = [index1, index2, index3, index4, index5, index6, index7, index8]
-    big_images=merging_row(index[0], folder_path=folder_path)
-    for i in index[1:]:
-        image=merging_row(i, folder_path=folder_path)
-        big_images = np.concatenate((big_images, image))
+# def get_area_total():
+#     mask = np.load('mask.npy').reshape(14598, 15408)
+#     folder_path = "annotations"
+#     index1=[i for i in range(56,64)]
+#     index2=[i for i in range(48,56)]
+#     index3=[i for i in range(40,48)]
+#     index4=[i for i in range(32,40)]
+#     index5=[i for i in range(24,32)]
+#     index6=[i for i in range(16,24)]
+#     index7=[i for i in range(8,16)] 
+#     index8 = np.arange(7, -1, -1)
+#     index = [index1, index2, index3, index4, index5, index6, index7, index8]
+#     big_images=merging_row(index[0], folder_path=folder_path)
+#     for i in index[1:]:
+#         image=merging_row(i, folder_path=folder_path)
+#         big_images = np.concatenate((big_images, image))
         
     
-    # img from 
-    plt.imshow(big_images)
-    plt.axis('off')
-    plt.show()
-    print(calculate_area(big_images, mask))
-    unique_values, counts = np.unique(mask, return_counts=True)
-    print(unique_values, counts)
-    total_sum = sum(calculate_area(big_images, mask).values())
-    print(total_sum)
-    return total_sum
+#     # img from 
+#     plt.imshow(big_images)
+#     plt.axis('off')
+#     plt.show()
+#     print(calculate_area(big_images, mask))
+#     unique_values, counts = np.unique(mask, return_counts=True)
+#     print(unique_values, counts)
+#     total_sum = sum(calculate_area(big_images, mask).values())
+#     print(total_sum)
+#     return total_sum
