@@ -22,7 +22,7 @@ def open_img(root: str) -> np.ndarray:
     Returns:
         img
     """
-    root = root.replace("\\","\\\\")
+    root = root.replace("\\","/")
     if not os.path.exists(root):
         print(f"File does not exist: {root}")
         return False

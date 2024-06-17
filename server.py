@@ -27,7 +27,7 @@ def merge_large_img(data: json = {}):
             root,flag = check_dir_tree(dir_tree= ["data","annotations", data['province'], data["district"],data["ward"]])
         else:
             flag = True
-            root = data['annotations'].replace("\\","\\\\").replace("/","\\\\")
+            root = data['annotations'].replace("\\","/")
     try:
         if flag:
             size_path = root.replace("annotations","mask")
@@ -141,13 +141,13 @@ def predict_data():
     if params:
         data = {key: value for key, value in params.items()}
         root, flag = check_dir_tree(["data","images",data["province"],data["district"],data["ward"]])
-        root = root.replace("\\","\\\\")
+        root = root.replace("\\","/")
 
         for filename in os.listdir(root):
             image_path = os.path.join(root, filename)
 
             save_dir,_ = check_dir_tree(["data","annotations",data["province"], data["district"],data["ward"]])
-            save_dir = root.replace("\\","\\\\")
+            save_dir = root.replace("\\","/")
             result = inference_model(model, image_path)
             vis_iamge = show_result_pyplot(model, image_path, result, save_dir =save_dir,
                                         opacity=1.0, show=False,  draw_gt=True, with_labels=False)

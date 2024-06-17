@@ -118,12 +118,12 @@ def check_dir_tree(dir_tree: List[str]) -> Tuple[str, bool]:
     files = os.listdir(root)
     if len(files)== 0:
         flag = False
-    root = root.replace("\\","\\\\")
+    root = root.replace("\\","/")
     return root, flag
 
 def run(idx, bound, data: json):
     file_dir = os.path.dirname("./")
-    with open(os.path.join(file_dir, 'preferences.json'), 'r', encoding='utf-8') as f:
+    with open(os.path.join(file_dir, 'preferences.json').replace("\\","/"), 'r', encoding='utf-8') as f:
         prefs = json.loads(f.read())
 
     # Check where saving    

@@ -32,7 +32,8 @@ def get_npy(data: json) -> np.ndarray:
         return flag
     else:
         try:
-            root = os.path.join(data['mask'],"mask.npy").replace("\\","\\\\").replace("/","\\\\")
+            root = os.path.join(data['mask'],"mask.npy").replace("\\","/")
+            print(root)
             mask = np.load(root)
             return mask
         except:
@@ -55,12 +56,12 @@ def check_num_img(geo_series):
         return W
 
 def save_size(W: int, H: int, root: str):
-    with open(f"{root}\\\\size.txt", "w", encoding="utf-8") as file:
+    with open(f"{root}/size.txt", "w", encoding="utf-8") as file:
         file.write(str(W) + "\n")
         file.write(str(H) + "\n")
 
 def read_size(root: str):
-    with open(f"{root}\\\\size.txt", "r", encoding="utf-8") as file:
+    with open(f"{root}/size.txt", "r", encoding="utf-8") as file:
         # Read the width and height values from the file
         W = int(file.readline().strip())
         H = int(file.readline().strip())
