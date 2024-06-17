@@ -104,6 +104,26 @@ def custom_calculate_area():
         data = response.content
         print(data)
 
+def send_2_text():
+    url = 'http://127.0.0.1:5000/get_area'
+
+    annotations = "data/annotations/Lâm Đồng/Đà Lạt/12"
+    mask = "data/mask/Hồ Chí Minh city/Quận 1/Nguyễn Cư Trinh"
+
+    params = {
+        'annotations': annotations,
+        'mask': mask
+    }
+
+    response = requests.post(url, params=params)
+    try:
+        data = json.loads(response.content)
+        area = data['area']
+        area_dict = eval(area)
+        print(area_dict)
+    except:
+        data = response.content
+        print(data)
 
 if __name__=="__main__":
-    custom_calculate_area()
+    send_2_text()
