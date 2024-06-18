@@ -10,7 +10,7 @@ RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
 
 COPY . /app
 
-EXPOSE 80
+EXPOSE 5000
 
 # Run the application
-CMD ["python", "server.py", "--host", "0.0.0.0", "--port", "80"]
+CMD ["python", "server.py", "--host", "0.0.0.0", "--port", "5000"]
