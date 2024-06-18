@@ -27,8 +27,7 @@ def merge_large_img(data: json = {}):
             root,flag = check_dir_tree(dir_tree= ["data","annotations", data['province'], data["district"],data["ward"]])
         else:
             flag = True
-            root = data['annotations'].replace("\\","\\\\").replace("/","\\\\")
-            print(root)
+            root = data['annotations'].replace("\\","/")
     try:
         if flag:
             size_path = root.replace("annotations","mask")
@@ -57,8 +56,10 @@ def merge_large_img(data: json = {}):
                     big_images = np.concatenate((big_images, image))
             return big_images
         else:
+            print("Can't load annotations")
             return False
     except:
+        print("Can't load annotations")
         return False
 
 
@@ -140,13 +141,13 @@ def predict_data():
     if params:
         data = {key: value for key, value in params.items()}
         root, flag = check_dir_tree(["data","images",data["province"],data["district"],data["ward"]])
-        root = root.replace("\\","\\\\")
+        root = root.replace("\\","/")
 
         for filename in os.listdir(root):
             image_path = os.path.join(root, filename)
 
             save_dir,_ = check_dir_tree(["data","annotations",data["province"], data["district"],data["ward"]])
-            save_dir = root.replace("\\","\\\\")
+            save_dir = root.replace("\\","/")
             result = inference_model(model, image_path)
             vis_iamge = show_result_pyplot(model, image_path, result, save_dir =save_dir,
                                         opacity=1.0, show=False,  draw_gt=True, with_labels=False)
@@ -156,6 +157,9 @@ def predict_data():
         return "abc"
     return "done have model"
 
+@app.route('/', methods=['GET'])
+def home():
+    return "Hello World!"
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

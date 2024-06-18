@@ -1,7 +1,7 @@
 __pycache__
 **/__pycache__
 re_training
-Dataset_Ward12
+geometry_data
 testing
 data
 .venv
@@ -10,3 +10,4 @@ preferences.json
 *.npy
 *.png
 *.pth
+segformer*.py

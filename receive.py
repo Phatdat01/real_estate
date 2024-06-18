@@ -34,6 +34,13 @@ def download_satellite_image():
     #     'ward':"12",
     #     'lst_img': []
     # }
+
+    params = {
+        'province': 'Hồ Chí Minh city',
+        'district': 'Quận 8',
+        'ward':"06"
+    }
+
     response = requests.post(url, params=params)
     try:
         data = json.loads(response.content)
@@ -126,4 +133,4 @@ def send_2_text():
         print(data)
 
 if __name__=="__main__":
-    send_2_text()
+    download_satellite_image()
