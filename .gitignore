@@ -10,4 +10,4 @@ preferences.json
 *.npy
 *.png
 *.pth
-segformer*.py
+segformer_mit-b5*.py
