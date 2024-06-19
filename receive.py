@@ -91,9 +91,9 @@ def predict():
     """
     url = 'http://127.0.0.1:5000/predict_data'
     params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh",
+        'province': 'Lâm Đồng',
+        'district': 'Đà Lạt',
+        'ward':"6"
     }
     response = requests.post(url, params=params)
     data = response.content
