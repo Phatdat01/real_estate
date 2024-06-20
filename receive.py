@@ -22,18 +22,18 @@ def download_satellite_image():
     #     'ward':"6",
     #     'lst_img': []
     # }
-    params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh",
-        'lst_img': []
-    }
     # params = {
-    #     'province': 'Lâm Đồng',
-    #     'district': 'Đà Lạt',
-    #     'ward':"12",
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh",
     #     'lst_img': []
     # }
+    params = {
+        'province': 'Lâm Đồng',
+        'district': 'Đà Lạt',
+        'ward':"12",
+        'lst_img': []
+    }
 
     # params = {
     #     'province': 'Hồ Chí Minh city',
@@ -54,11 +54,11 @@ def calculate_area():
     Send params to calculate area
     """
     url = 'http://127.0.0.1:5000/get_area'
-    # params = {
-    #     'province': 'Lâm Đồng',
-    #     'district': 'Đà Lạt',
-    #     'ward':"12"
-    # }
+    params = {
+        'province': 'Lâm Đồng',
+        'district': 'Đà Lạt',
+        'ward':"12"
+    }
     
     # params = {
     #     'province': 'Lâm Đồng',
@@ -66,11 +66,11 @@ def calculate_area():
     #     'ward':"6"
     # }
 
-    params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh"
-    }
+    # params = {
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh"
+    # }
     response = requests.post(url, params=params)
     try:
         data = json.loads(response.content)
@@ -90,16 +90,21 @@ def predict():
     Send APO predict label
     """
     url = 'http://127.0.0.1:5000/predict_data'
+    params = {
+        'province': 'Lâm Đồng',
+        'district': 'Đà Lạt',
+        'ward':"12"
+    }
     # params = {
     #     'province': 'Lâm Đồng',
     #     'district': 'Đà Lạt',
     #     'ward':"6"
     # }
-    params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh"
-    }
+    # params = {
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh"
+    # }
     response = requests.post(url, params=params)
     data = response.content
     print(data)
