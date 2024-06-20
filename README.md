@@ -17,3 +17,8 @@ W: num img for width
 
 * Works:
 - begon size file, mask file, parameters calculate area vs return json
+
+* Run docker:
+docker-compose down
+docker-compose build
+docker-compose up -d
