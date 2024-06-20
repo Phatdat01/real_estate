@@ -93,6 +93,11 @@ def predict():
     # params = {
     #     'province': 'Lâm Đồng',
     #     'district': 'Đà Lạt',
+    #     'ward':"12"
+    # }
+    # params = {
+    #     'province': 'Lâm Đồng',
+    #     'district': 'Đà Lạt',
     #     'ward':"6"
     # }
     params = {
