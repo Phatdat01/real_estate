@@ -69,7 +69,7 @@ def calculate_area():
     params = {
         'province': 'Hồ Chí Minh city',
         'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh",
+        'ward':"Nguyễn Cư Trinh"
     }
     response = requests.post(url, params=params)
     try:
@@ -90,10 +90,20 @@ def predict():
     Send APO predict label
     """
     url = 'http://127.0.0.1:5000/predict_data'
+    # params = {
+    #     'province': 'Lâm Đồng',
+    #     'district': 'Đà Lạt',
+    #     'ward':"12"
+    # }
+    # params = {
+    #     'province': 'Lâm Đồng',
+    #     'district': 'Đà Lạt',
+    #     'ward':"6"
+    # }
     params = {
-        'province': 'Lâm Đồng',
-        'district': 'Đà Lạt',
-        'ward':"6"
+        'province': 'Hồ Chí Minh city',
+        'district': 'Quận 1',
+        'ward':"Nguyễn Cư Trinh"
     }
     response = requests.post(url, params=params)
     data = response.content
