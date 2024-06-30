@@ -22,11 +22,18 @@ def download_satellite_image():
     #     'ward':"6",
     #     'lst_img': []
     # }
+    # params = {
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh",
+    #     'lst_img': []
+    # }
     params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh",
-        'lst_img': []
+        'province': 'Đồng Nai',
+        'district': 'Tân Phú',
+        'ward':"Phú Lập",
+        'lst_img': [],
+        'W_num':8
     }
     # params = {
     #     'province': 'Lâm Đồng',
@@ -66,10 +73,15 @@ def calculate_area():
     #     'ward':"6"
     # }
 
+    # params = {
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh"
+    # }
     params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh"
+        'province': 'Đồng Nai',
+        'district': 'Tân Phú',
+        'ward':"Phú Lập"
     }
     response = requests.post(url, params=params)
     try:
@@ -100,10 +112,15 @@ def predict():
     #     'district': 'Đà Lạt',
     #     'ward':"6"
     # }
+    # params = {
+    #     'province': 'Hồ Chí Minh city',
+    #     'district': 'Quận 1',
+    #     'ward':"Nguyễn Cư Trinh"
+    # }
     params = {
-        'province': 'Hồ Chí Minh city',
-        'district': 'Quận 1',
-        'ward':"Nguyễn Cư Trinh"
+        'province': 'Đồng Nai',
+        'district': 'Tân Phú',
+        'ward':"Phú Lập"
     }
     response = requests.post(url, params=params)
     data = response.content
