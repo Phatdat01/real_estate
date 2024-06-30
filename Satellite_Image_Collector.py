@@ -74,13 +74,20 @@ def save_npy(geo_series, G, data):
         W_num = int(data['W_num'])
     else:
         W_num = check_num_img(geo_series)
-    print(W_num)
 
     tf_lon, _, _, tf_lat = geo_series[geo_series.index[-1]-W_num+1].bounds
     _, br_lat, br_lon, _ = geo_series[0].bounds
 
     W, H = image_size(tf_lat, tf_lon, br_lat, br_lon, zoom=19)
+    if H/W >= 5:
+        W_num = round(len(geo_series)/W_num)
+        tf_lon, _, _, tf_lat = geo_series[geo_series.index[-1]-W_num+1].bounds
+        _, br_lat, br_lon, _ = geo_series[0].bounds
+
+        W, H = image_size(tf_lat, tf_lon, br_lat, br_lon, zoom=19)    
+    print(W_num)
     print(W,H)
+    
     dx = (br_lon-tf_lon)/W
     dy = (tf_lat-br_lat)/H
 
